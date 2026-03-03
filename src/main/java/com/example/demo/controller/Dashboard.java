@@ -1,42 +1,54 @@
 package com.example.demo.controller;
+
 import com.example.demo.model.LeaveApplication;
+import com.example.demo.model.LeaveBalance;
 import com.example.demo.service.LeaveService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class Dashboard {
+
     @Autowired
     LeaveService leaveService;
 
-    public void setLeaveService(LeaveService leaveService) {}
     @GetMapping("/dashboard")
-    public String dashboard(HttpServletRequest request) {
-        Long userId = 1L; // normally fetched from session / security context
-        request.setAttribute("userName", "Sibusiso");
+    public String dashboard(Model model) {
 
-        // Leave summary
+        Long userId = 1L; // later fetch from session
+        model.addAttribute("userName", "Sibusiso");
+
+        // 🔹 Get Leave Balance from DB
+        LeaveBalance balance = leaveService.getLeaveBalance(userId);
+
+        int totalAnnual = balance.getTotalAnnualLeave();
+        int totalSick = balance.getTotalSickLeave();
+        System.out.println("Total Annual: " + totalAnnual);
+        System.out.println("total sick"+totalSick);
+
+        // 🔹 Used leave from LeaveApplication table
+        int usedAnnual = leaveService.getLeaveCountByType(userId, "Annual Leave");
+        int usedSick = leaveService.getLeaveCountByType(userId, "Sick Leave");
+
+        int pending = leaveService.getLeaveCountByStatus(userId, "PENDING");
+
         Map<String, Integer> leaveSummary = Map.of(
-                "annualLeave", leaveService.getLeaveCountByType(userId, "Annual Leave"),
-                "sickLeave", leaveService.getLeaveCountByType(userId, "Sick Leave"),
-                "pendingRequests", leaveService.getLeaveCountByStatus(userId, "Pending"),
-                "approvedDays", leaveService.getLeaveCountByStatus(userId, "Approved")
+                "pendingRequests", pending,
+                "annualRemaining", totalAnnual - usedAnnual,
+                "sickRemaining", totalSick - usedSick
         );
-        request.setAttribute("leaveSummary", leaveSummary);
 
-        // Recent activity
+        model.addAttribute("leaveSummary", leaveSummary);
+
+        // 🔹 Recent activity
         List<LeaveApplication> recentLeaves = leaveService.getRecentLeaves(userId);
-        request.setAttribute("recentActivities", recentLeaves);
+        model.addAttribute("recentActivities", recentLeaves);
 
-        return "dashboard"; // /WEB-INF/jsp/dashboard.jsp
-
-
-
+        return "dashboard";
     }
 }

@@ -2,12 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Application Form</title>
+    <title>Leave Application Form</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
-
 </head>
 
 <body class="bg-light">
@@ -16,31 +14,28 @@
 
     <div class="card shadow">
         <div class="card-header bg-primary text-white">
-            <h4>Application Form</h4>
+            <h4>Leave Application Form</h4>
         </div>
 
         <div class="card-body">
 
-            <form method="post" action="/application/submit">
+            <form method="post" action="/apply/submit">
 
-                <!-- Applicant Name -->
+                <!-- Hidden User ID (normally from session) -->
+                <input type="hidden" name="userId" value="1"/>
+
+                <!-- Employee Name -->
                 <div class="mb-3">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" name="fullName" class="form-control" required>
+                    <label class="form-label">Employee Name</label>
+                    <input type="text" name="employeeName" class="form-control" required>
                 </div>
 
-                <!-- Email -->
+                <!-- Leave Type -->
                 <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" required>
-                </div>
-
-                <!-- Application Type -->
-                <div class="mb-3">
-                    <label class="form-label">Application Type</label>
-                    <select name="applicationType" class="form-select" required>
+                    <label class="form-label">Leave Type</label>
+                    <select name="leaveType" class="form-select" required>
                         <option value="">Select Type</option>
-                        <option value="Leave">Leave</option>
+                        <option value="Annual Leave">Annual Leave</option>
                         <option value="Sick Leave">Sick Leave</option>
                         <option value="Study Leave">Study Leave</option>
                     </select>
@@ -58,11 +53,8 @@
                     <input type="date" name="endDate" class="form-control" required>
                 </div>
 
-                <!-- Reason -->
-                <div class="mb-3">
-                    <label class="form-label">Reason</label>
-                    <textarea name="reason" class="form-control" rows="4" required></textarea>
-                </div>
+                <!-- Hidden Status -->
+                <input type="hidden" name="status" value="PENDING"/>
 
                 <div class="text-end">
                     <button type="submit" class="btn btn-primary">

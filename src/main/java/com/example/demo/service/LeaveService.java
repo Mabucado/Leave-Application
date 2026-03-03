@@ -1,7 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.model.LeaveApplication;
+import com.example.demo.model.LeaveBalance;
+import com.example.demo.repository.LeaveBalanceRepository;
 import com.example.demo.repository.LeaveRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.*;
 import java.util.List;
@@ -10,6 +13,8 @@ import java.util.List;
 public class LeaveService {
 
     private final LeaveRepository leaveRepository;
+    @Autowired
+    private LeaveBalanceRepository leaveBalanceRepository;
 
     public LeaveService(LeaveRepository leaveRepository) {
         this.leaveRepository = leaveRepository;
@@ -43,6 +48,17 @@ public class LeaveService {
 
     public int getLeaveCountByStatus(Long userId, String status) {
         return leaveRepository.countByuserIdAndStatus(userId, status);
+    }
+    public LeaveApplication saveApplication(LeaveApplication application) {
+        return leaveRepository.save(application);
+    }
+    public LeaveBalance getLeaveBalance(Long userId) {
+        return leaveBalanceRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Leave balance not found"));
+    }
+    public List<LeaveApplication> getLeavesByUser(Long userId) {
+        return leaveRepository.findByUserIdOrderByStartDateDesc(userId);
     }
 
     public List<LeaveApplication> getAllLeaves() {

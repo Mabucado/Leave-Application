@@ -92,7 +92,7 @@
                                     <i class="bi bi-calendar"></i>
                                 </div>
                             </div>
-                            <h2 class="fw-bold">12</h2>
+                            <h2 class="fw-bold"> ${leaveSummary.annualRemaining}</h2>
                             <small class="text-muted">Days</small>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                                     <i class="bi bi-bag"></i>
                                 </div>
                             </div>
-                            <h2 class="fw-bold">5</h2>
+                            <h2 class="fw-bold">${leaveSummary.sickRemaining}</h2>
                             <small class="text-muted">Days</small>
                         </div>
                     </div>
@@ -122,26 +122,13 @@
                                     <i class="bi bi-file-earmark-text"></i>
                                 </div>
                             </div>
-                            <h2 class="fw-bold">1</h2>
+                            <h2 class="fw-bold">${leaveSummary.pendingRequests}</h2>
                             <small class="text-muted">Request</small>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="card border-0 shadow-sm rounded-4">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between mb-3">
-                                <span class="text-muted">Approved This Year</span>
-                                <div class="bg-success bg-opacity-10 text-success p-2 rounded">
-                                    <i class="bi bi-check-circle"></i>
-                                </div>
-                            </div>
-                            <h2 class="fw-bold">8</h2>
-                            <small class="text-muted">Days</small>
-                        </div>
-                    </div>
-                </div>
+
 
             </div>
 
