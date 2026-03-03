@@ -25,7 +25,10 @@ public class Dashboard {
 
         // 🔹 Get Leave Balance from DB
         LeaveBalance balance = leaveService.getLeaveBalance(userId);
-
+        if(balance == null){
+            balance = new LeaveBalance();
+            balance.setTotalAnnualLeave(0);
+        }
         int totalAnnual = balance.getTotalAnnualLeave();
         int totalSick = balance.getTotalSickLeave();
         System.out.println("Total Annual: " + totalAnnual);

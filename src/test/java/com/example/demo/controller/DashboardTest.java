@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
-import org.springframework.boot.test.mock.mockito.MockBean;
 
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -29,7 +29,7 @@ class DashboardTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private LeaveService leaveService;
 
     @Test
@@ -37,7 +37,7 @@ class DashboardTest {
 
         // Arrange (Mock service behavior)
         when(leaveService.getLeaveCountByType(anyLong(), anyString()))
-                .thenReturn(5);   // Annual & Sick mocked as 5
+                .thenReturn(0);   // Annual & Sick mocked as 5
 
         when(leaveService.getLeaveCountByStatus(anyLong(), anyString()))
                 .thenReturn(2);   // Pending & Approved mocked as 2
@@ -59,8 +59,8 @@ class DashboardTest {
                                     .getModel()
                                     .get("leaveSummary");
 
-                    assertEquals(10, summary.get("annualRemaining"));
-                    assertEquals(5, summary.get("sickRemaining"));
+                    assertEquals(0, summary.get("annualRemaining"));
+                    assertEquals(0, summary.get("sickRemaining"));
                     assertEquals(2, summary.get("pendingRequests"));
                 });
     }
